@@ -1,0 +1,109 @@
+heat_template_version: 2018-08-31
+
+description: Déploiement d'une VM exposée via une route
+
+# Parameters
+parameters:
+  image:
+    type: string
+    default: Debian-12
+    description: Image pour la VM
+
+  flavor:
+    type: string
+    default: m1.small
+    description: Flavor pour la VM
+
+  key_name:
+    type: string
+    description: Nom de la paire de clés SSH
+
+  network_name:
+    type: string
+    default: my-private-network
+    description: Nom du réseau privé
+
+  subnet_cidr:
+    type: string
+    default: 192.168.1.0/24
+    description: CIDR du sous-réseau
+
+# Resources
+resources:
+
+  # Private network
+  private_network:
+    type: OS::Neutron::Net
+    properties:
+      name: { get_param: network_name }
+
+  # Subnet associated with the private network
+  private_subnet:
+    type: OS::Neutron::Subnet
+    properties:
+      network_id: { get_resource: private_network }
+      cidr: { get_param: subnet_cidr }
+      dns_nameservers:
+        - 8.8.8.8
+
+  # Security group for SSH and HTTP access
+  security_group:
+    type: OS::Neutron::SecurityGroup
+    properties:
+      name: vm-security-group
+      rules:
+        - protocol: tcp
+          port_range_min: 22
+          port_range_max: 22
+          remote_ip_prefix: 0.0.0.0/0
+        - protocol: tcp
+          port_range_min: 80
+          port_range_max: 80
+          remote_ip_prefix: 0.0.0.0/0
+
+  # Virtual Machine with Apache installed
+  vm_instance:
+    type: OS::Nova::Server
+    properties:
+      name: my-vm
+      flavor: { get_param: flavor }
+      image: { get_param: image }
+      key_name: { get_param: key_name }
+      networks:
+        - network: { get_resource: private_network }
+      security_groups:
+        - { get_resource: security_group }
+      user_data: |
+        #!/bin/bash
+        apt-get update
+        apt-get install -y apache2
+        systemctl enable apache2
+        systemctl start apache2
+
+  # Router for connecting the private network to the public network
+  router:
+    type: OS::Neutron::Router
+    properties:
+      name: my-router
+      external_gateway_info:
+        network: public
+
+  # Attach the router to the private subnet
+  router_interface:
+    type: OS::Neutron::RouterInterface
+    properties:
+      router_id: { get_resource: router }
+      subnet_id: { get_resource: private_subnet }
+
+  # Floating IP for external access
+  floating_ip:
+    type: OS::Neutron::FloatingIP
+    properties:
+      floating_network: public
+      port_id: { get_attr: [vm_instance, addresses, { get_param: network_name }, 0, port_id] }
+
+# Outputs
+outputs:
+  vm_public_ip:
+    description: Adresse IP publique de la VM
+    value: { get_attr: [floating_ip, floating_ip_address] }

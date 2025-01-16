@@ -1,0 +1,4 @@
+- name: Start a container with a command
+  community.docker.docker_container:
+    name: verbs
+    image: thomasmauran/verbs:latest
