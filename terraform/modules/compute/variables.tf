@@ -1,6 +1,7 @@
-variable "vm_name" {
-  description = "Name of the virtual machine"
-  type        = string
+variable "vm_names" {
+  description = "List of VM names"
+  type        = list(string)
+  default     = ["vm1", "vm2", "vm3"]
 }
 
 variable "flavor" {

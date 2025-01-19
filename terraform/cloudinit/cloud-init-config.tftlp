@@ -1,4 +1,11 @@
 #cloud-config
+ansible:
+  package_name: ansible-core
+  install_method: distro
+  pull:
+    url: https://github.com/thomas-mauran/openstack-tf.git
+    playbook_name: ansible/playbook.yml
+
 apt:
   sources:
     docker.list:
@@ -89,10 +96,3 @@ write_files:
     YT90qFF93M3v01BbxP+EIY2/9tiIPbrd
     =0YYh
     -----END PGP PUBLIC KEY BLOCK-----
-
-ansible:
-  package_name: ansible-core
-  install_method: distro
-  pull:
-    url: https://github.com/thomas-mauran/openstack-tf.git
-    playbook_name: ansible/playbook.yml

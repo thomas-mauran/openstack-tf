@@ -25,7 +25,6 @@ module "security_group" {
 
 module "compute" {
   source       = "./modules/compute"
-  vm_name      = "my-vm"
   flavor       = var.flavor
   image        = var.image
   key_name     = var.key_name

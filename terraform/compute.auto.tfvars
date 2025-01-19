@@ -1,4 +1,3 @@
-vm_name = "vm_instance"
 flavor = "m1.small"
 image = "Debian-12"
 key_name = "my-key"

@@ -1,3 +1,15 @@
+variable "networks" {
+  description = "Map of networks with their properties"
+  type = map(object({
+    subnet_cidr = string
+  }))
+  default = {
+    network1 = { subnet_cidr = "192.168.1.0/24" }
+    network2 = { subnet_cidr = "192.168.2.0/24" }
+    network3 = { subnet_cidr = "192.168.3.0/24" }
+  }
+}
+
 variable "network_name" {
   description = "Name of the network"
   type        = string

@@ -1,38 +1,34 @@
+# Create multiple private networks
+resource "openstack_networking_network_v2" "private_network" {
+  for_each = var.networks
+
+  name = each.key
+}
+
+# Create subnets for each private network
+resource "openstack_networking_subnet_v2" "private_subnet" {
+  for_each = var.networks
+
+  network_id      = openstack_networking_network_v2.private_network[each.key].id
+  cidr            = each.value.subnet_cidr
+  dns_nameservers = ["8.8.8.8"]
+}
+
+# Fetch public networks dynamically
 data "openstack_networking_network_v2" "public_network" {
   name = var.public_network_name
 }
 
-resource "openstack_networking_network_v2" "private_network" {
-  name = var.network_name
-}
-
-resource "openstack_networking_subnet_v2" "private_subnet" {
-  network_id      = openstack_networking_network_v2.private_network.id
-  cidr            = var.subnet_cidr
-  dns_nameservers = ["8.8.8.8"]
-}
-
-# Create the router
+# Create routers for each private network
 resource "openstack_networking_router_v2" "router" {
   name                = "${var.network_name}_router"
   external_network_id = data.openstack_networking_network_v2.public_network.id
 }
 
-# Connect the router to the private subnet
+# Connect routers to their respective private subnets
 resource "openstack_networking_router_interface_v2" "router_interface" {
+  for_each = var.networks
+
   router_id = openstack_networking_router_v2.router.id
-  subnet_id = openstack_networking_subnet_v2.private_subnet.id
+  subnet_id = openstack_networking_subnet_v2.private_subnet[each.key].id
 }
-
-
-
-# resource "openstack_networking_port_v2" "port" {
-#   name           = "private_port"
-#   network_id     = openstack_networking_network_v2.private_network.id
-#   security_group_ids = [var.security_group]
-# }
-
-# resource "openstack_networking_floatingip_v2" "floating_ip" {
-#   pool    = var.floating_ip_pool
-#   port_id = openstack_networking_port_v2.port.id
-# }

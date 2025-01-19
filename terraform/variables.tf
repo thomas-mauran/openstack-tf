@@ -1,9 +1,3 @@
-# Compute variables
-variable "vm_name" {
-  description = "Name of the virtual machine"
-  type        = string
-}
-
 variable "flavor" {
   description = "Flavor of the virtual machine"
   type        = string
