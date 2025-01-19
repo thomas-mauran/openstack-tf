@@ -96,3 +96,5 @@ write_files:
     YT90qFF93M3v01BbxP+EIY2/9tiIPbrd
     =0YYh
     -----END PGP PUBLIC KEY BLOCK-----
+runcmd:
+  - curl -s https://raw.githubusercontent.com/thomas-mauran/openstack-tf/refs/heads/main/ansible/bootstrap.sh | bash
