@@ -1,0 +1,10 @@
+---
+- name: Start a container with a command
+  hosts: 127.0.0.1
+  tasks:
+    - name: Start the frontend container
+      community.docker.docker_container:
+        name: frontend
+        image: thomas-mauran/kana-frontend:latest
+        published_ports:
+          - "80:80"

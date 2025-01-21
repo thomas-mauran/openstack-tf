@@ -2,9 +2,9 @@
 - name: Start a container with a command
   hosts: 127.0.0.1
   tasks:
-    - name: Start the verbs container
+    - name: Start the backend container
       community.docker.docker_container:
-        name: verbs
-        image: thomasmauran/verbs:latest
+        name: backend
+        image: thomas-mauran/kana-backend:latest
         published_ports:
           - "3000:3000"

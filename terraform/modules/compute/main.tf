@@ -10,9 +10,10 @@ resource "openstack_compute_instance_v2" "vm_instance" {
 
 network {
   name = "network${each.value + 1}"
+  fixed_ip_v4 = var.vm_fixed_ips[each.value]
 }
 
-  user_data = templatefile(var.cloud_init_config_path, {hostname = each.key})
+  user_data = templatefile(var.cloud_init_config_path, {hostname = each.key, playbook_name = "${var.vm_playbooks[each.value]}.yml"})
 }
 
 data "openstack_networking_network_v2" "public_network" {
