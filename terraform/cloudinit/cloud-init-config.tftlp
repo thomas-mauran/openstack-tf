@@ -3,7 +3,7 @@ ansible:
   package_name: ansible-core
   install_method: distro
   pull:
-    url: https://github.com/thomas-mauran/openstack-tf.git
+    url: https://github.com/thomas-mauran/openstack-tf/ansible.git
     playbook_name: ansible/playbook.yml
 
 apt:
@@ -26,8 +26,6 @@ packages:
 - docker-compose-plugin
 
 disable_root: true
-preserve_hostname: false
-hostname: ${hostname}
 
 write_files:
 - path: /etc/apt/keyrings/docker.asc
@@ -96,5 +94,3 @@ write_files:
     YT90qFF93M3v01BbxP+EIY2/9tiIPbrd
     =0YYh
     -----END PGP PUBLIC KEY BLOCK-----
-runcmd:
-  - curl -s https://raw.githubusercontent.com/thomas-mauran/openstack-tf/refs/heads/main/ansible/bootstrap.sh | bash

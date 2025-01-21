@@ -6,7 +6,7 @@ description: Déploiement d'une VM exposée via une route
 parameters:
   image:
     type: string
-    default: Debian-12
+    default: Ubuntu
     description: Image pour la VM
 
   flavor:

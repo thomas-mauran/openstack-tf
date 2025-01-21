@@ -1,5 +1,10 @@
 ---
 - name: Start a container with a command
-  community.docker.docker_container:
-    name: verbs
-    image: thomasmauran/verbs:latest
+  hosts: localhost
+  tasks:
+    - name: Start the verbs container
+      community.docker.docker_container:
+        name: verbs
+        image: thomasmauran/verbs:latest
+        published_ports:
+          - "3000:3000"
