@@ -5,6 +5,6 @@
     - name: Start the backend container
       community.docker.docker_container:
         name: backend
-        image: thomas-mauran/kana-backend:latest
+        image: ghcr.io/thomas-mauran/kana-frontend:latest
         published_ports:
           - "3000:3000"
