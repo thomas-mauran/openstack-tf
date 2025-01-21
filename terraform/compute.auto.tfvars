@@ -1,5 +1,5 @@
 flavor = "m1.small"
-image = "Debian-12"
+image = "Ubuntu"
 key_name = "my-key"
 network_name = "private_network"
 security_group = "vm_security_group"

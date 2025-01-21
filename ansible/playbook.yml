@@ -1,6 +1,7 @@
 ---
 - name: Start a container with a command
-  hosts: localhost
+  hosts: 127.0.0.1
+  connection: local
   tasks:
     - name: Start the verbs container
       community.docker.docker_container:

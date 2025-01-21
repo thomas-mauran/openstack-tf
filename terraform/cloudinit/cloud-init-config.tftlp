@@ -1,15 +1,8 @@
 #cloud-config
-ansible:
-  package_name: ansible-core
-  install_method: distro
-  pull:
-    url: https://github.com/thomas-mauran/openstack-tf/ansible.git
-    playbook_name: ansible/playbook.yml
-
 apt:
   sources:
     docker.list:
-      source: deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/debian bookworm stable 
+      source: deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu oracular stable 
       
 package_reboot_if_required: true
 package_update: true
@@ -94,3 +87,10 @@ write_files:
     YT90qFF93M3v01BbxP+EIY2/9tiIPbrd
     =0YYh
     -----END PGP PUBLIC KEY BLOCK-----
+
+ansible:
+  package_name: ansible-core
+  install_method: distro
+  pull:
+    url: https://github.com/thomas-mauran/openstack-tf.git
+    playbook_name: ansible/playbook.yml
