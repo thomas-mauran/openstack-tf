@@ -7,4 +7,4 @@
         name: backend
         image: ghcr.io/thomas-mauran/kana-frontend:latest
         published_ports:
-          - "3000:3000"
+          - "80:80"

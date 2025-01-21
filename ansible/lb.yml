@@ -1,0 +1,53 @@
+---
+- name: "Configure Load Balancer with HAProxy"
+  hosts: 127.0.0.1
+  become: yes
+  tasks:
+    - name: "Install HAProxy"
+      package:
+        name: haproxy
+        state: present
+
+    - name: "Configure HAProxy for Load Balancing with Multiple Backends"
+      copy:
+        dest: /etc/haproxy/haproxy.cfg
+        content: |
+          # Global settings
+          global
+              log /dev/log    local0
+              log /dev/log    local1 notice
+              maxconn 200
+
+          # Default settings
+          defaults
+              log     global
+              option  httplog
+              timeout connect 5000ms
+              timeout client  50000ms
+              timeout server  50000ms
+
+          # Frontend settings for Load Balancing
+          frontend http_front
+              bind *:80
+              default_backend http_back
+
+          # Backend settings for Load Balancing
+          backend http_back
+              balance roundrobin
+              server server1 {{ front1 }}:80 check
+              server server2 {{ front2 }}:80 check
+
+      notify:
+        - Restart HAProxy
+
+    - name: "Ensure HAProxy is running and enabled"
+      service:
+        name: haproxy
+        state: started
+        enabled: yes
+
+  handlers:
+    - name: "Restart HAProxy"
+      service:
+        name: haproxy
+        state: restarted

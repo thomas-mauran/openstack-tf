@@ -8,3 +8,5 @@
         image: ghcr.io/thomas-mauran/kana-frontend:latest
         published_ports:
           - "80:80"
+      env:
+        BACKEND_URL : {{ backend }}

@@ -7,7 +7,7 @@ variable "vm_names" {
 variable "vm_playbooks" {
   description = "List of VM playbooks"
   type        = list(string)
-  default     = ["nginx", "frontend", "frontend", "backend"]
+  default     = ["lb", "frontend", "frontend", "backend"]
 }
 
 
