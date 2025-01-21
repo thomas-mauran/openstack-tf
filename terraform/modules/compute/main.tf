@@ -12,7 +12,7 @@ network {
   name = "network${each.value + 1}"
 }
 
-  user_data = file(var.cloud_init_config_path)
+  user_data = templatefile(var.cloud_init_config_path, {hostname = each.key})
 }
 
 data "openstack_networking_network_v2" "public_network" {

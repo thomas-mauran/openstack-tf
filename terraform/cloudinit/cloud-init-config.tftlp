@@ -19,6 +19,8 @@ packages:
 - docker-compose-plugin
 
 disable_root: true
+preserve_hostname: false
+hostname: ${hostname}
 
 write_files:
 - path: /etc/apt/keyrings/docker.asc
