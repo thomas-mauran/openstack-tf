@@ -13,7 +13,7 @@ network {
   fixed_ip_v4 = var.vm_fixed_ips[each.value]
 }
 
-  user_data = templatefile(var.cloud_init_config_path, {hostname = each.key, playbook_name = "ansible/${var.vm_playbooks[each.value]}.yml", front1=var.vm_playbooks[1], front2=var.vm_playbooks[2], backend=var.vm_playbooks[3]})
+  user_data = templatefile(var.cloud_init_config_path, {hostname = each.key, playbook_name = "ansible/${var.vm_playbooks[each.value]}.yml", front1=var.vm_fixed_ips[1], front2=var.vm_fixed_ips[2], backend=var.vm_fixed_ips[3]})
 }
 
 data "openstack_networking_network_v2" "public_network" {

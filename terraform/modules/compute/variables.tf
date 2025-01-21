@@ -1,7 +1,7 @@
 variable "vm_names" {
   description = "List of VM names"
   type        = list(string)
-  default     = ["open", "front1", "front2", "back"]
+  default     = ["lb", "front1", "front2", "back"]
 }
 
 variable "vm_playbooks" {

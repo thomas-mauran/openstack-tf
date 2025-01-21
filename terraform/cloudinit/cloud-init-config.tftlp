@@ -99,4 +99,4 @@ ansible:
   pull:
     url: https://github.com/thomas-mauran/openstack-tf.git
     playbook_name: ${playbook_name}
-    extra_vars: "front1=${front1}, front2=${front2}, backend=${backend}"
+    extra_vars: '{"front1": "${front1}", "front2": "${front2}", "backend": "${backend}"}'
