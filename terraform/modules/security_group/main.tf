@@ -22,3 +22,23 @@ resource "openstack_networking_secgroup_rule_v2" "allow_http" {
   protocol          = "tcp"
   remote_ip_prefix  = "0.0.0.0/0"
 }
+
+resource "openstack_networking_secgroup_rule_v2" "allow_kube" {
+  security_group_id = openstack_networking_secgroup_v2.vm_security_group.id
+  direction         = "ingress"
+  ethertype         = "IPv4"
+  port_range_min    = "6443"
+  port_range_max    = "6443"
+  protocol          = "tcp"
+  remote_ip_prefix  = "0.0.0.0/0"
+}
+
+resource "openstack_networking_secgroup_rule_v2" "allow_kube_egress" {
+  security_group_id = openstack_networking_secgroup_v2.vm_security_group.id
+  direction         = "egress"
+  ethertype         = "IPv4"
+  port_range_min    = "6443"
+  port_range_max    = "6443"
+  protocol          = "tcp"
+  remote_ip_prefix  = "0.0.0.0/0"
+}

@@ -5,4 +5,4 @@
     - name: Install k3s
       ansible.builtin.shell:
         cmd: |
-          curl -sfL https://get.k3s.io | sh - agent --server https://{{ master_ip }}:6443 --token {{ k3s_token }}
+          curl -sfL https://get.k3s.io | sh -s - agent  --server https://{{ master_ip }}:6443 --token {{ k3s_token }}
