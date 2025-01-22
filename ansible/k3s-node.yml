@@ -5,5 +5,4 @@
     - name: Install k3s
       community.general.shell:
         cmd: |
-          curl -sfL https://get.k3s.io | sh - agent --server https://<server-ip>:6443 --token "<your-token>"
-
+          curl -sfL https://get.k3s.io | sh - agent --server https://{{ master_ip }}:6443 --token {{ k3s_token }}

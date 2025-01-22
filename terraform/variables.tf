@@ -7,11 +7,18 @@ variable "vm_instances" {
   }))
 }
 
+# Kube related
 variable "k3s_token" {
   description = "K3s token"
   type        = string
 }
 
+variable "master_ip" {
+  description = "IP of the master node"
+  type        = string
+}
+
+# Compute variables
 variable "flavor" {
   description = "Flavor of the virtual machine"
   type        = string
