@@ -9,11 +9,11 @@ resource "openstack_compute_instance_v2" "vm_instance" {
   security_groups = [var.security_group]
 
 network {
-  name = "network${each.value + 1}"
+  name = var.network_name
   fixed_ip_v4 = var.vm_fixed_ips[each.value]
 }
 
-  user_data = templatefile(var.cloud_init_config_path, {hostname = each.key, playbook_name = "ansible/${var.vm_playbooks[each.value]}.yml", front1=var.vm_fixed_ips[1], front2=var.vm_fixed_ips[2], backend=var.vm_fixed_ips[3]})
+  user_data = templatefile(var.cloud_init_config_path, {hostname = each.key, playbook_name = "ansible/${var.vm_playbooks[each.value]}.yml", front1=var.vm_fixed_ips[1], front2=var.vm_fixed_ips[2], backend="http://${var.vm_fixed_ips[3]}:80"})
 }
 
 data "openstack_networking_network_v2" "public_network" {

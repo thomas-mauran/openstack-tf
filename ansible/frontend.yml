@@ -9,4 +9,4 @@
         published_ports:
           - "80:80"
         env:
-          BACKEND_URL : "{{ backend }}"
+          VITE_BACKEND_URL : "{{ backend }}"

@@ -14,7 +14,7 @@ variable "vm_playbooks" {
 variable "vm_fixed_ips" {
   type        = list(string)
   description = "List of fixed IPs for the VMs"
-  default     = ["192.168.1.50", "192.168.2.50", "192.168.3.50", "192.168.4.50"]
+  default     = ["192.168.1.10", "192.168.1.20", "192.168.1.30", "192.168.1.40"]
 } 
 
 variable "flavor" {
