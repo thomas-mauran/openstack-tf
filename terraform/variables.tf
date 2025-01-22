@@ -1,3 +1,17 @@
+variable "vm_instances" {
+  description = "Map of instances to create"
+  type        = map(object({
+    name     = string
+    playbook = string
+    ip       = string
+  }))
+}
+
+variable "k3s_token" {
+  description = "K3s token"
+  type        = string
+}
+
 variable "flavor" {
   description = "Flavor of the virtual machine"
   type        = string

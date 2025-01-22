@@ -4,3 +4,4 @@ myenv/*
 terraform.tfstate
 terraform.tfstate.backup
 providers.tf
+*.tfvars

@@ -1,0 +1,32 @@
+flavor = "m1.small"
+image = "Ubuntu"
+key_name = "my-key"
+network_name = "private_network"
+security_group = "vm_security_group"
+cloud_init_config_path = "./cloudinit/cloud-init-config.tftlp"
+
+k3s_token = <k3s_token>
+
+vm_instances = {
+    "lb" = {
+        name = "lb",
+        playbook = "lb",
+        ip = "192.168.1.10"
+    },
+    "backend" = {
+        name = "backend",
+        playbook = "backend",
+        ip = "192.168.1.40",
+    }
+    "front1" = {
+        name = "front1",
+        playbook = "frontend",
+        ip = "192.168.1.20",
+    },
+    "front2" = {
+        name = "front2",
+        playbook = "frontend",
+        ip = "192.168.1.30",
+    },
+
+}

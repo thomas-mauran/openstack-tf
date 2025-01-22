@@ -1,21 +1,16 @@
-variable "vm_names" {
-  description = "List of VM names"
-  type        = list(string)
-  default     = ["lb", "front1", "front2", "back"]
+variable "vm_instances" {
+  description = "Map of instances to create"
+  type        = map(object({
+    name     = string
+    playbook = string
+    ip       = string
+  }))
 }
 
-variable "vm_playbooks" {
-  description = "List of VM playbooks"
-  type        = list(string)
-  default     = ["lb", "frontend", "frontend", "backend"]
+variable "k3s_token" {
+  description = "K3s token"
+  type        = string
 }
-
-
-variable "vm_fixed_ips" {
-  type        = list(string)
-  description = "List of fixed IPs for the VMs"
-  default     = ["192.168.1.10", "192.168.1.20", "192.168.1.30", "192.168.1.40"]
-} 
 
 variable "flavor" {
   description = "Flavor of the virtual machine"

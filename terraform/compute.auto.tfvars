@@ -1,6 +1,0 @@
-flavor = "m1.small"
-image = "Ubuntu"
-key_name = "my-key"
-network_name = "private_network"
-security_group = "vm_security_group"
-cloud_init_config_path = "./cloudinit/cloud-init-config.tftlp"
