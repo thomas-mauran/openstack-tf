@@ -1,8 +1,8 @@
 ---
-- name:
+- name: Install k3s
   hosts: 127.0.0.1
   tasks:
     - name: Install k3s
-      community.general.shell:
+      ansible.builtin.shell:
         cmd: |
           curl -sfL https://get.k3s.io | sh -s - --token "{{ k3s_token }}"

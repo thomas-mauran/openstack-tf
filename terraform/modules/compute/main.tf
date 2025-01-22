@@ -19,6 +19,8 @@ resource "openstack_compute_instance_v2" "vm_instance" {
     front2         = lookup(var.vm_instances, "front2", { name = "", playbook = "", ip = "" }).ip,
     backend        = "http://${lookup(var.vm_instances, "backend", { name = "", playbook = "", ip = "" }).ip}:80"
     k3s_token      = var.k3s_token
+    master_ip      = lookup(var.vm_instances, "master", { name = "", playbook = "", ip = "" }).ip,
+
   })
 }
 

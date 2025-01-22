@@ -12,10 +12,6 @@ variable "k3s_token" {
   description = "K3s token"
   type        = string
 }
-variable "master_ip" {
-  description = "IP of the master node"
-  type        = string
-}
 
 # Compute variables
 variable "flavor" {

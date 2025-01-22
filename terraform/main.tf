@@ -32,6 +32,7 @@ module "compute" {
   security_group = var.security_group
   cloud_init_config_path = var.cloud_init_config_path
   vm_instances = var.vm_instances
+
   k3s_token = var.k3s_token
 
   public_network_name = var.public_network_name

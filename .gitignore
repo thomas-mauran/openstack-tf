@@ -4,4 +4,4 @@ myenv/*
 terraform.tfstate
 terraform.tfstate.backup
 providers.tf
-compute.auto.tfvars
+# compute.auto.tfvars
