@@ -27,7 +27,7 @@ hostname: ${hostname}
 
 
 write_files:
-  %{ if playbook_name == "ansible/kube-node.yml" }
+  %{ if playbook_name == "ansible/kube-master.yml" }
 - path: /etc/rancher/kube/config.yaml
   owner: root:root
   permissions: '0644'

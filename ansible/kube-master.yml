@@ -1,4 +1,11 @@
 ---
+  - name: Stop and disable UFW
+    ansible.builtin.systemd:
+      name: ufw
+      state: stopped
+      enabled: no
+    become: yes  # Ensures the command is run with elevated privileges
+
   - name: Install rke2 and update the token file
     hosts: 127.0.0.1
     tasks:
