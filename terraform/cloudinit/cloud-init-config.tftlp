@@ -12,7 +12,7 @@ packages:
 - curl
 - git
 - ca-certificates
-  %{ if playbook_name == "ansible/frontend.yml" || playbook_name == "ansible/backend.yml" }
+  %{ if playbook_name != "ansible/lb.yml" || playbook_name != "ansible/lb.yml" }
 - docker-ce 
 - docker-ce-cli 
 - containerd.io 
@@ -25,9 +25,16 @@ disable_root: true
 preserve_hostname: false
 hostname: ${hostname}
 
-  %{ if playbook_name == "ansible/frontend.yml" || playbook_name == "ansible/backend.yml" }
+  %{ if playbook_name != "ansible/lb.yml" || playbook_name != "ansible/lb.yml" }
 
 write_files:
+- path: /etc/rancher/k3s/config.yaml
+  owner: root:root
+  permissions: '0644'
+  content: |
+    write-kubeconfig-mode: "0644"
+    token: "${k3s_token}"
+
 - path: /etc/apt/keyrings/docker.asc
   owner: root:root
   permissions: '0644'
