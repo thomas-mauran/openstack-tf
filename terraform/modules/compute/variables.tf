@@ -4,6 +4,7 @@ variable "vm_instances" {
     name     = string
     playbook = string
     ip       = string
+    flavor   = string
   }))
 }
 
@@ -14,10 +15,6 @@ variable "kube_token" {
 }
 
 # Compute variables
-variable "flavor" {
-  description = "Flavor of the virtual machine"
-  type        = string
-}
 
 variable "image" {
   description = "Image for the virtual machine"

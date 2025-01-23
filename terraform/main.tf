@@ -25,7 +25,6 @@ module "security_group" {
 
 module "compute" {
   source       = "./modules/compute"
-  flavor       = var.flavor
   image        = var.image
   key_name     = var.key_name
   network_name = var.network_name

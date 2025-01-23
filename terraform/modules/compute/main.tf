@@ -2,7 +2,7 @@ resource "openstack_compute_instance_v2" "vm_instance" {
   for_each = var.vm_instances
 
   name            = each.value.name
-  flavor_name     = var.flavor
+  flavor_name     = each.value.flavor
   image_name      = var.image
   key_pair        = var.key_name
   security_groups = [var.security_group]
@@ -15,11 +15,11 @@ resource "openstack_compute_instance_v2" "vm_instance" {
   user_data = templatefile(var.cloud_init_config_path, {
     hostname       = each.value.name,
     playbook_name  = "ansible/${each.value.playbook}.yml",
-    front1         = lookup(var.vm_instances, "front1", { name = "", playbook = "", ip = "" }).ip,
-    front2         = lookup(var.vm_instances, "front2", { name = "", playbook = "", ip = "" }).ip,
-    backend        = "http://${lookup(var.vm_instances, "backend", { name = "", playbook = "", ip = "" }).ip}:80"
+    front1         = lookup(var.vm_instances, "front1", { name = "", playbook = "", ip = "", flavor = "" }).ip,
+    front2         = lookup(var.vm_instances, "front2", { name = "", playbook = "", ip = "", flavor = "" }).ip,
+    backend        = "http://${lookup(var.vm_instances, "backend", { name = "", playbook = "", ip = "", flavor = "" }).ip}:80"
     kube_token      = var.kube_token
-    master_ip      = lookup(var.vm_instances, "master", { name = "", playbook = "", ip = "" }).ip,
+    master_ip      = lookup(var.vm_instances, "master", { name = "", playbook = "", ip = "", flavor = "" }).ip,
 
   })
 }

@@ -1,4 +1,3 @@
-flavor = "m1.small"
 image = "Ubuntu"
 key_name = "my-key"
 network_name = "private_network"
@@ -13,19 +12,21 @@ vm_instances = {
         name = "master",
         playbook = "kube-master",
         ip = "192.168.1.40"
+        flavor = "m1.medium"
     },
-
 
     "node1" = {
         name = "node1",
         playbook = "kube-node",
         ip = "192.168.1.10"
+        flavor = "m1.small"
     }
 
     "node2" = {
         name = "node2",
         playbook = "kube-node",
         ip = "192.168.1.20"
+        flavor = "m1.small"
     }
 
 
