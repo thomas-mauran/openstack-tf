@@ -33,7 +33,7 @@ module "compute" {
   cloud_init_config_path = var.cloud_init_config_path
   vm_instances = var.vm_instances
 
-  k3s_token = var.k3s_token
+  kube_token = var.kube_token
 
   public_network_name = var.public_network_name
   depends_on = [module.network, module.security_group]

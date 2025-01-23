@@ -3,6 +3,27 @@ resource "openstack_networking_secgroup_v2" "vm_security_group" {
   description = "Allow SSH and HTTP"
 }
 
+resource "openstack_networking_secgroup_rule_v2" "allow_all_ingress" {
+  security_group_id = openstack_networking_secgroup_v2.vm_security_group.id
+  direction         = "ingress"
+  ethertype         = "IPv4"
+  port_range_min    = "0"
+  port_range_max    = "0"
+  protocol          = "tcp"
+  remote_ip_prefix  = "192.168.1.0/24"
+}
+
+
+resource "openstack_networking_secgroup_rule_v2" "allow_all_egress" {
+  security_group_id = openstack_networking_secgroup_v2.vm_security_group.id
+  direction         = "egress"
+  ethertype         = "IPv4"
+  port_range_min    = "0"
+  port_range_max    = "0"
+  protocol          = "tcp"
+  remote_ip_prefix  = "192.168.1.0/24"
+}
+
 resource "openstack_networking_secgroup_rule_v2" "allow_ssh" {
   security_group_id = openstack_networking_secgroup_v2.vm_security_group.id
   direction         = "ingress"
@@ -34,13 +55,23 @@ resource "openstack_networking_secgroup_rule_v2" "allow_embedded_etcd" {
   remote_ip_prefix  = "0.0.0.0/0"
 }
 
-# Allow K3s API Server
+# Allow kube API Server
 resource "openstack_networking_secgroup_rule_v2" "allow_kube_api" {
   security_group_id = openstack_networking_secgroup_v2.vm_security_group.id
   direction         = "ingress"
   ethertype         = "IPv4"
   port_range_min    = 6443
   port_range_max    = 6443
+  protocol          = "tcp"
+  remote_ip_prefix  = "0.0.0.0/0"
+}
+
+resource "openstack_networking_secgroup_rule_v2" "allow_kube_api_6444" {
+  security_group_id = openstack_networking_secgroup_v2.vm_security_group.id
+  direction         = "ingress"
+  ethertype         = "IPv4"
+  port_range_min    = 6444
+  port_range_max    = 6444
   protocol          = "tcp"
   remote_ip_prefix  = "0.0.0.0/0"
 }
@@ -126,7 +157,7 @@ resource "openstack_networking_secgroup_rule_v2" "allow_embedded_etcd_egress" {
   remote_ip_prefix  = "0.0.0.0/0"
 }
 
-# Allow K3s API Server
+# Allow kube API Server
 resource "openstack_networking_secgroup_rule_v2" "allow_kube_api_egress" {
   security_group_id = openstack_networking_secgroup_v2.vm_security_group.id
   direction         = "egress"
@@ -136,6 +167,17 @@ resource "openstack_networking_secgroup_rule_v2" "allow_kube_api_egress" {
   protocol          = "tcp"
   remote_ip_prefix  = "0.0.0.0/0"
 }
+
+resource "openstack_networking_secgroup_rule_v2" "allow_kube_api_egress_6444" {
+  security_group_id = openstack_networking_secgroup_v2.vm_security_group.id
+  direction         = "egress"
+  ethertype         = "IPv4"
+  port_range_min    = 6444
+  port_range_max    = 6444
+  protocol          = "tcp"
+  remote_ip_prefix  = "0.0.0.0/0"
+}
+
 
 # Allow Flannel VXLAN Networking
 resource "openstack_networking_secgroup_rule_v2" "allow_flannel_vxlan_egress" {

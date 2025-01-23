@@ -1,0 +1,19 @@
+---
+  - name: Install rke2 and update the token file
+    hosts: 127.0.0.1
+    tasks:
+      - 
+      - name: Install rke2
+        ansible.builtin.shell:
+          cmd: |
+            curl -sfL https://get.rke2.io | sh -
+        become: yes  # Ensures the command is run with elevated privilegesz
+  - name: enable and start the rke2 service
+    hosts: 127.0.0.1
+    tasks:
+      - name: enable and start the rke2 service
+        ansible.builtin.systemd:
+          name: rke2-server
+          enabled: yes
+          state: started
+        become: yes  # Ensures the command is run with elevated privileges

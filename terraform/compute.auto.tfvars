@@ -5,26 +5,26 @@ network_name = "private_network"
 security_group = "vm_security_group"
 cloud_init_config_path = "./cloudinit/cloud-init-config.tftlp"
 
-k3s_token = "K10064db4af364efa339faa2edb29404ca3b65dae8293e550afa0f35521cbc87aa3::server:52c1e31ff96277465631af6a0ce00657"
+kube_token = "K10847543704d3339621ef739b4218e6d41fd028a46bbc915c4a1cee5ea40f1e282::server:prout"
 master_ip = "192.168.1.40"
 
 vm_instances = {
     "master" = {
         name = "master",
-        playbook = "k3s-master",
+        playbook = "kube-master",
         ip = "192.168.1.40"
     },
 
 
     "node1" = {
         name = "node1",
-        playbook = "k3s-node",
+        playbook = "kube-node",
         ip = "192.168.1.10"
     }
 
     "node2" = {
         name = "node2",
-        playbook = "k3s-node",
+        playbook = "kube-node",
         ip = "192.168.1.20"
     }
 

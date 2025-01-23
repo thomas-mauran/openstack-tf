@@ -12,7 +12,7 @@ packages:
 - curl
 - git
 - ca-certificates
-  %{ if playbook_name != "ansible/lb.yml" || playbook_name != "ansible/lb.yml" }
+  %{ if playbook_name != "ansible/lb.yml" }
 - docker-ce 
 - docker-ce-cli 
 - containerd.io 
@@ -25,15 +25,27 @@ disable_root: true
 preserve_hostname: false
 hostname: ${hostname}
 
-  %{ if playbook_name != "ansible/lb.yml" || playbook_name != "ansible/lb.yml" }
 
 write_files:
-- path: /etc/rancher/k3s/config.yaml
+  %{ if playbook_name == "ansible/kube-node.yml" }
+- path: /etc/rancher/kube/config.yaml
   owner: root:root
   permissions: '0644'
   content: |
-    write-kubeconfig-mode: "0644"
-    token: "${k3s_token}"
+    token: "test"
+
+  %{ endif }
+
+  %{ if playbook_name == "ansible/kube-node.yml" }
+- path: /etc/rancher/kube/config.yaml
+  owner: root:root
+  permissions: '0644'
+  content: |
+    server: https://192.168.1.40:9345
+    token: test
+  %{ endif }
+
+  %{ if playbook_name != "ansible/lb.yml" }
 
 - path: /etc/apt/keyrings/docker.asc
   owner: root:root
@@ -114,4 +126,4 @@ ansible:
   pull:
     url: https://github.com/thomas-mauran/openstack-tf.git
     playbook_name: ${playbook_name}
-    extra_vars: '{"front1": "${front1}", "front2": "${front2}", "backend": "${backend}", "master_ip": "${master_ip}", "k3s_token": "${k3s_token}"}'
+    extra_vars: '{"front1": "${front1}", "front2": "${front2}", "backend": "${backend}", "master_ip": "${master_ip}", "kube_token": "${kube_token}"}'

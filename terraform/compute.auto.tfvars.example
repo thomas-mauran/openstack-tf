@@ -5,7 +5,7 @@ network_name = "private_network"
 security_group = "vm_security_group"
 cloud_init_config_path = "./cloudinit/cloud-init-config.tftlp"
 
-k3s_token = <k3s_token>
+kube_token = <kube_token>
 
 vm_instances = {
     "lb" = {

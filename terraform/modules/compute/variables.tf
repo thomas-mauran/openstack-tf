@@ -8,8 +8,8 @@ variable "vm_instances" {
 }
 
 # Kube related
-variable "k3s_token" {
-  description = "K3s token"
+variable "kube_token" {
+  description = "kube token"
   type        = string
 }
 
