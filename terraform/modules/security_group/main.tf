@@ -22,6 +22,16 @@ resource "openstack_networking_secgroup_rule_v2" "allow_http" {
   remote_ip_prefix  = "0.0.0.0/0"
 }
 
+resource "openstack_networking_secgroup_rule_v2" "argocd" {
+  security_group_id = openstack_networking_secgroup_v2.vm_security_group.id
+  direction         = "ingress"
+  ethertype         = "IPv4"
+  port_range_min    = "32195"
+  port_range_max    = "32195"
+  protocol          = "tcp"
+  remote_ip_prefix  = "0.0.0.0/0"
+}
+
 # Define Ingress Rule for 10.0.30.0/24
 resource "openstack_networking_secgroup_rule_v2" "ingress_10_0_30_0" {
   security_group_id = openstack_networking_secgroup_v2.vm_security_group.id
