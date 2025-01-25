@@ -16,7 +16,8 @@
         ansible.builtin.shell:
           cmd: |
             curl -sfL https://get.rke2.io | sh -
-        become: yesz
+        become: yes
+        
   - name: enable and start the rke2 service
     hosts: 127.0.0.1
     tasks:
