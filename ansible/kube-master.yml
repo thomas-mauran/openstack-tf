@@ -81,6 +81,15 @@
             kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "LoadBalancer"}}'
         become: yes
 
+  - name: Expose argocd with a nodeport
+    hosts: 127.0.0.1
+    tasks:
+      - name: Expose argocd with a nodeport
+        ansible.builtin.shell:
+          cmd: |
+            kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "NodePort", "ports": [{"port": 80, "targetPort": 8080, "nodePort": 30670, "protocol": "TCP", "name": "http"}]}}'
+        become: yes
+
   - name: Install argocd cli
     hosts: 127.0.0.1
     tasks:
@@ -102,13 +111,13 @@
         become: yes
 
 
-  - name: Port forward argocd to 8080
+  - name: Use a node port for argocd
     hosts: 127.0.0.1
     tasks:
-      - name: Port forward argocd to 8080
+      - name: Use a node port for argocd
         ansible.builtin.shell:
           cmd: |
-            kubectl port-forward svc/argocd-server -n argocd 8080:443 &
+            kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "NodePort"}}'
         become: yes
 
 
