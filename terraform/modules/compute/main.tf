@@ -17,7 +17,7 @@ resource "openstack_compute_instance_v2" "vm_instance" {
     playbook_name  = "ansible/${each.value.playbook}.yml",
     front1         = lookup(var.vm_instances, "front1", { name = "", playbook = "", ip = "", flavor = "" }).ip,
     front2         = lookup(var.vm_instances, "front2", { name = "", playbook = "", ip = "", flavor = "" }).ip,
-    backend        = "http://${lookup(var.vm_instances, "backend", { name = "", playbook = "", ip = "", flavor = "" }).ip}:80"
+    backend        = "${lookup(var.vm_instances, "backend", { name = "", playbook = "", ip = "", flavor = "" }).ip}"
     kube_token      = var.kube_token
     master_ip      = lookup(var.vm_instances, "master", { name = "", playbook = "", ip = "", flavor = "" }).ip,
 

@@ -144,7 +144,7 @@
       - name: Create the ns for the app
         ansible.builtin.shell:
           cmd: |
-            argocd app sync -l app.kubernetes.io/instance=apps
+            argocd app sync argocd/apps
         become: yes
     
 

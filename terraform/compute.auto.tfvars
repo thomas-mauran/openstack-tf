@@ -19,14 +19,14 @@ vm_instances = {
         name = "node1",
         playbook = "kube-node",
         ip = "192.168.1.10"
-        flavor = "m1.small"
+        flavor = "m1.medium"
     }
 
     "node2" = {
         name = "node2",
         playbook = "kube-node",
         ip = "192.168.1.20"
-        flavor = "m1.small"
+        flavor = "m1.medium"
     }
 
 
