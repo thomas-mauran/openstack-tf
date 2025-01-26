@@ -11,45 +11,52 @@ vm_instances = {
     "master" = {
         name = "master",
         playbook = "kube-master",
-        ip = "192.168.1.40"
+        ip = "192.168.1.40",
         flavor = "m1.medium"
     },
 
     "node1" = {
         name = "node1",
         playbook = "kube-node",
-        ip = "192.168.1.10"
+        ip = "192.168.1.10",
         flavor = "m1.medium"
     }
 
     "node2" = {
         name = "node2",
         playbook = "kube-node",
-        ip = "192.168.1.20"
+        ip = "192.168.1.20",
         flavor = "m1.medium"
     }
 
 
 
-    # "lb" = {
-    #     name = "lb",
-    #     playbook = "lb",
-    #     ip = "192.168.1.50"
-    # },
-    # "backend" = {
-    #     name = "backend",
-    #     playbook = "backend",
-    #     ip = "192.168.1.60",
-    # }
-    # "front1" = {
-    #     name = "front1",
-    #     playbook = "frontend",
-    #     ip = "192.168.1.70",
-    # },
-    # "front2" = {
-    #     name = "front2",
-    #     playbook = "frontend",
-    #     ip = "192.168.1.80",
-    # },
+    "lb" = {
+        name = "lb",
+        playbook = "lb",
+        ip = "192.168.1.50",
+        flavor = "m1.small"
+    },
+    
+    "backend" = {
+        name = "backend",
+        playbook = "backend",
+        ip = "192.168.1.60",
+        flavor = "m1.small"
+    }
+
+    "front1" = {
+        name = "front1",
+        playbook = "frontend",
+        ip = "192.168.1.70",
+        flavor = "m1.small"
+    },
+    
+    "front2" = {
+        name = "front2",
+        playbook = "frontend",
+        ip = "192.168.1.80",
+        flavor = "m1.small"
+    },
 
 }

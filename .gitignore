@@ -4,4 +4,6 @@ myenv/*
 terraform.tfstate
 terraform.tfstate.backup
 providers.tf
+*.auto.tfvars
+tmauran-openrc.sh
 # compute.auto.tfvars
