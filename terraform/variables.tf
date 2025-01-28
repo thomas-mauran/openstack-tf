@@ -1,6 +1,6 @@
 variable "vm_instances" {
   description = "Map of instances to create"
-  type        = map(object({
+  type = map(object({
     name     = string
     playbook = string
     ip       = string
