@@ -61,3 +61,7 @@ ansible-galaxy collection install openstack.cloud
 to apply the ansible config
 
 ansible-playbook -vvv ansible/ansible-create-os-instance/create_os_vm.yml   
+
+### Heat
+
+The heat file is available [here](./heat.yaml)
