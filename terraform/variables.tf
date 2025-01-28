@@ -14,6 +14,11 @@ variable "kube_token" {
   type        = string
 }
 
+variable argocd_password {
+  description = "ArgoCD password"
+  type        = string
+}
+
 variable "master_ip" {
   description = "IP of the master node"
   type        = string

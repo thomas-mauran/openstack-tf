@@ -14,6 +14,11 @@ variable "kube_token" {
   type        = string
 }
 
+variable "argocd_password" {
+  description = "ArgoCD password"
+  type        = string
+}
+
 # Compute variables
 
 variable "image" {

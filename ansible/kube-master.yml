@@ -119,6 +119,15 @@
             argocd login localhost:30670 --username admin --password $(kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d) --insecure
         become: yes
 
+  - name: Change the argocd password
+    hosts: 127.0.0.1
+    tasks:
+      - name: Change the argocd password
+        ansible.builtin.shell:
+          cmd: |
+            argocd account update-password --new-password "{{ argocd_password }}" --current-password $(kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d)
+        become: yes
+
   - name: Create the argocd project
     hosts: 127.0.0.1
     tasks:

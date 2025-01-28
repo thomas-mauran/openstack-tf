@@ -20,7 +20,7 @@ resource "openstack_compute_instance_v2" "vm_instance" {
     backend        = "${lookup(var.vm_instances, "backend", { name = "", playbook = "", ip = "", flavor = "" }).ip}"
     kube_token      = var.kube_token
     master_ip      = lookup(var.vm_instances, "master", { name = "", playbook = "", ip = "", flavor = "" }).ip,
-
+    argocd_password = var.argocd_password
   })
 }
 

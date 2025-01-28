@@ -31,6 +31,7 @@ module "compute" {
   security_group         = var.security_group
   cloud_init_config_path = var.cloud_init_config_path
   vm_instances           = var.vm_instances
+  argocd_password        = var.argo_password
 
   kube_token = var.kube_token
 

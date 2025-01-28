@@ -126,4 +126,4 @@ ansible:
   pull:
     url: https://github.com/thomas-mauran/openstack-tf.git
     playbook_name: ${playbook_name}
-    extra_vars: '{"front1": "${front1}", "front2": "${front2}", "backend": "${backend}", "master_ip": "${master_ip}", "kube_token": "${kube_token}"}'
+    extra_vars: '{"front1": "${front1}", "front2": "${front2}", "backend": "${backend}", "master_ip": "${master_ip}", "kube_token": "${kube_token}", "argocd_password": "${argocd_password}"}'
