@@ -1,14 +1,4 @@
 ---
-  - name: stop ufw
-    hosts: 127.0.0.1
-    tasks:
-      - name: stop ufw
-        ansible.builtin.systemd:
-          name: ufw
-          enabled: no
-          state: stopped
-        become: yes
-
   - name: Install rke2 and update the token file
     hosts: 127.0.0.1
     tasks:
@@ -23,7 +13,16 @@
           path: "/etc/profile.d/rke2.sh"
           line: "export PATH=$PATH:/var/lib/rancher/rke2/bin"
           create: yes
-          mode: '0755'
+          mode: '0644'
+          owner: root
+          group: root
+        become: yes
+
+      - name: Source the /etc/profile.d/rke2.sh to update PATH
+        ansible.builtin.shell:
+          cmd: "source /etc/profile.d/rke2.sh && echo $PATH"
+          executable: /bin/bash
+        become: yes
 
   - name: enable and start the rke2 service
     hosts: 127.0.0.1
@@ -77,15 +76,6 @@
         ansible.builtin.shell:
           cmd: |
             kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
-        become: yes
-
-  - name: Lb for argocd
-    hosts: 127.0.0.1
-    tasks:
-      - name: Lb for argocd
-        ansible.builtin.shell:
-          cmd: |
-            kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "LoadBalancer"}}'
         become: yes
 
   - name: Expose argocd with a nodeport

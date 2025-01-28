@@ -38,3 +38,8 @@ module "compute" {
   public_network_name = var.public_network_name
   depends_on          = [module.network, module.security_group]
 }
+
+output "floating_ips_with_names" {
+  value =  module.compute.floating_ips_with_names
+
+}

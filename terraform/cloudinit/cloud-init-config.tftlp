@@ -12,7 +12,7 @@ packages:
 - curl
 - git
 - ca-certificates
-  %{ if playbook_name != "ansible/lb.yml" }
+  %{ if playbook_name != "ansible/lb.yml" || playbook_name != "ansible/kube-master.yml" || playbook_name != "ansible/kube-node.yml" }
 - docker-ce 
 - docker-ce-cli 
 - containerd.io 
@@ -41,11 +41,11 @@ write_files:
   owner: root:root
   permissions: '0644'
   content: |
-    server: "${master_ip}"
+    server: https://"${master_ip}":9345
     token: test
   %{ endif }
 
-  %{ if playbook_name != "ansible/lb.yml" }
+  %{ if playbook_name != "ansible/lb.yml" || playbook_name != "ansible/kube-master.yml" || playbook_name != "ansible/kube-node.yml" }
 
 - path: /etc/apt/keyrings/docker.asc
   owner: root:root

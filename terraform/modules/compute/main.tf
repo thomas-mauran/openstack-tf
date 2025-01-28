@@ -1,15 +1,27 @@
+data "openstack_images_image_v2" "image" {
+  name = var.image
+}
+
 resource "openstack_compute_instance_v2" "vm_instance" {
   for_each = var.vm_instances
 
   name            = each.value.name
   flavor_name     = each.value.flavor
-  image_name      = var.image
   key_pair        = var.key_name
   security_groups = [var.security_group]
 
   network {
     name        = var.network_name
     fixed_ip_v4 = each.value.ip
+  }
+
+  block_device {
+    uuid                  = data.openstack_images_image_v2.image.id
+    source_type           = "image"
+    volume_size           = 50
+    boot_index            = 0
+    destination_type      = "volume"
+    delete_on_termination = true
   }
 
   user_data = templatefile(var.cloud_init_config_path, {

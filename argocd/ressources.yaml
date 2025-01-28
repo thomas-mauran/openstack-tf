@@ -1,0 +1,71 @@
+# /var/lib/rancher/rke2/server/manifests
+
+# Create the ns for argocd
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: argocd
+---
+# Create the ns for the app
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: app
+---
+# Service definition for argocd-server with NodePort
+apiVersion: v1
+kind: Service
+metadata:
+  name: argocd-server
+  namespace: argocd
+spec:
+  type: NodePort
+  selector:
+    app.kubernetes.io/name: argocd-server
+  ports:
+    - name: http
+      port: 80
+      targetPort: 8080
+      protocol: TCP
+      nodePort: 30670
+    - name: https
+      port: 443
+      targetPort: 443
+      protocol: TCP
+---
+# Define the ArgoCD Project
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: kanas
+  namespace: argocd
+spec:
+  description: "Project for Kanas applications"
+  sourceRepos:
+    - https://github.com/thomas-mauran/kanas
+  destinations:
+    - namespace: app
+      server: https://kubernetes.default.svc
+  clusterResourceWhitelist:
+    - group: '*'
+      kind: '*'
+---
+# Define the ArgoCD Application
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: apps
+  namespace: argocd
+spec:
+  project: kanas
+  source:
+    repoURL: https://github.com/thomas-mauran/kanas.git
+    targetRevision: HEAD
+    path: .argocd/apps
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: app
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
