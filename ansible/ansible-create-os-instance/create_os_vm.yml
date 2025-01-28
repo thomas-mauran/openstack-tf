@@ -1,0 +1,35 @@
+---
+- name: Create a network and VM on OpenStack
+  hosts: localhost
+  gather_facts: no
+  tasks:
+    - name: Create a network on OpenStack
+      openstack.cloud.network:
+        name: my_network
+        region_name: regionOne
+        state: present
+        validate_certs: no  
+      register: created_network
+
+    - name: Create a subnet for the network
+      openstack.cloud.subnet:
+        name: my_subnet
+        network_name: "{{ created_network.network.name }}"
+        cidr: "192.168.1.0/24"  # Define the CIDR block for your subnet
+        gateway_ip: "192.168.1.1"   # Correct parameter for gateway
+        region_name: regionOne
+        state: present
+        validate_certs: no  
+
+    - name: Create a VM on OpenStack
+      openstack.cloud.server:
+        name: my_instance
+        image: Ubuntu
+        flavor: m1.small
+        key_name: my-key
+        region_name: regionOne
+        validate_certs: no  
+
+    - name: Display VM's IP address
+      debug:
+        msg: "The VM IP address is {{ openstack_vm.public_ip }}"
