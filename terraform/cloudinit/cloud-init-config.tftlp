@@ -25,7 +25,7 @@ disable_root: true
 preserve_hostname: false
 hostname: ${hostname}
 
-
+%{ if playbook_name != "ansible/lb.yml" }
 write_files:
   %{ if playbook_name == "ansible/kube-master.yml" }
 - path: /etc/rancher/rke2/config.yaml
@@ -115,7 +115,7 @@ write_files:
     -----END PGP PUBLIC KEY BLOCK-----
     
   %{ endif }
-  
+%{ endif }
 
 ansible:
   package_name: ansible-core
