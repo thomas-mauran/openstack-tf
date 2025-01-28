@@ -4,7 +4,7 @@ network_name = "private_network"
 security_group = "vm_security_group"
 cloud_init_config_path = "./cloudinit/cloud-init-config.tftlp"
 
-kube_token = "K10847543704d3339621ef739b4218e6d41fd028a46bbc915c4a1cee5ea40f1e282::server:prout"
+kube_token = "K10847543704d3339621ef739b4218e6d41fd028a46bbc915c4a1cee5ea40f1e282::server:test"
 master_ip = "192.168.1.40"
 
 vm_instances = {
@@ -37,7 +37,7 @@ vm_instances = {
         ip = "192.168.1.50",
         flavor = "m1.small"
     },
-    
+
     "backend" = {
         name = "backend",
         playbook = "backend",

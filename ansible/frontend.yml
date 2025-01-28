@@ -5,7 +5,7 @@
     - name: Start the frontend container
       community.docker.docker_container:
         name: frontend
-        image: ghcr.io/thomas-mauran/kana-frontend:latest
+        image: ghcr.io/thomas-mauran/kana-frontend:3bb30af
         published_ports:
           - "80:80"
         env:
