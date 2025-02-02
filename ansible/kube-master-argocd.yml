@@ -78,6 +78,15 @@
             kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
         become: yes
 
+  - name: Lb for argocd
+    hosts: 127.0.0.1
+    tasks:
+      - name: Lb for argocd
+        ansible.builtin.shell:
+          cmd: |
+            kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "LoadBalancer"}}'
+        become: yes
+        
   - name: Expose argocd with a nodeport
     hosts: 127.0.0.1
     tasks:
