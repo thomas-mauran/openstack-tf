@@ -1,0 +1,157 @@
+---
+  - name: Install rke2 and update the token file
+    hosts: 127.0.0.1
+    tasks:
+      - name: Install rke2
+        ansible.builtin.shell:
+          cmd: |
+            curl -sfL https://get.rke2.io | sh -
+        become: yes
+
+      - name: Ensure /var/lib/rancher/rke2/bin is in the PATH
+        ansible.builtin.lineinfile:
+          path: "/etc/profile.d/rke2.sh"
+          line: "export PATH=$PATH:/var/lib/rancher/rke2/bin"
+          create: yes
+          mode: '0644'
+          owner: root
+          group: root
+        become: yes
+
+      - name: Source the /etc/profile.d/rke2.sh to update PATH
+        ansible.builtin.shell:
+          cmd: "source /etc/profile.d/rke2.sh && echo $PATH"
+          executable: /bin/bash
+        become: yes
+
+  - name: enable and start the rke2 service
+    hosts: 127.0.0.1
+    tasks:
+      - name: enable and start the rke2 service
+        ansible.builtin.systemd:
+          name: rke2-server
+          enabled: yes
+          state: started
+        become: yes
+
+  - name: Install kubectl
+    hosts: 127.0.0.1
+    tasks:
+      - name: Install kubectl
+        ansible.builtin.shell:
+          cmd: |
+            snap install kubectl --classic
+        become: yes
+
+        # Create the .kube directory .kube/config
+  - name: Create the .kube directory
+    hosts: 127.0.0.1
+    tasks:
+      - name: Create the .kube directory
+        ansible.builtin.file:
+          path: /root/.kube
+          state: directory
+
+  - name: Cp the kubeconfig file from /etc/rancher/rke2/rke2.yaml
+    hosts: 127.0.0.1
+    tasks:
+      - name: Cp the kubeconfig file from /etc/rancher/rke2/rke2.yaml
+        ansible.builtin.copy:
+          src: /etc/rancher/rke2/rke2.yaml
+          dest: /root/.kube/config
+
+  # - name: Create the argocd namespace
+  #   hosts: 127.0.0.1
+  #   tasks:
+  #     - name: Create the argocd namespace
+  #       ansible.builtin.shell:
+  #         cmd: |
+  #           kubectl create namespace argocd
+  #       become: yes
+
+  # - name: Install with argocd
+  #   hosts: 127.0.0.1
+  #   tasks:
+  #     - name: Install with argocd
+  #       ansible.builtin.shell:
+  #         cmd: |
+  #           kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+  #       become: yes
+
+  # - name: Expose argocd with a nodeport
+  #   hosts: 127.0.0.1
+  #   tasks:
+  #     - name: Expose argocd with a nodeport
+  #       ansible.builtin.shell:
+  #         cmd: |
+  #           kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "NodePort", "ports": [{"port": 80, "targetPort": 8080, "nodePort": 30670, "protocol": "TCP", "name": "http"}]}}'
+  #       become: yes
+
+  # - name: Install argocd cli
+  #   hosts: 127.0.0.1
+  #   tasks:
+  #     - name: Install argocd cli
+  #       ansible.builtin.shell:
+  #         cmd: |
+  #           curl -sSL -o argocd-linux-amd64 https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
+  #           sudo install -m 555 argocd-linux-amd64 /usr/local/bin/argocd
+  #           rm argocd-linux-amd64
+  #       become: yes
+
+  # - name: Create ns for the app
+  #   hosts: 127.0.0.1
+  #   tasks:
+  #     - name: Create the ns for the app
+  #       ansible.builtin.shell:
+  #         cmd: |
+  #           kubectl create ns app
+  #       become: yes
+
+  # - name: Login to argocd
+  #   hosts: 127.0.0.1
+  #   tasks:
+  #     - name: Login to argocd
+  #       ansible.builtin.shell:
+  #         cmd: |
+  #           argocd login localhost:30670 --username admin --password $(kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d) --insecure
+  #       become: yes
+
+  # - name: Change the argocd password
+  #   hosts: 127.0.0.1
+  #   tasks:
+  #     - name: Change the argocd password
+  #       ansible.builtin.shell:
+  #         cmd: |
+  #           argocd account update-password --new-password "{{ argocd_password }}" --current-password $(kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d)
+  #       become: yes
+
+  # - name: Create the argocd project
+  #   hosts: 127.0.0.1
+  #   tasks:
+  #     - name: Create the argocd project
+  #       ansible.builtin.shell:
+  #         cmd: |
+  #           argocd proj create kanas   --description "Project for Kanas applications"   --dest https://kubernetes.default.svc,app   --src https://github.com/thomas-mauran/kanas   --allow-cluster-resource '*'
+  #       become: yes
+    
+    
+  # - name: Create the app using the argocd cli
+  #   hosts: 127.0.0.1
+  #   tasks:
+  #     - name: Create the app
+  #       ansible.builtin.shell:
+  #         cmd: |
+  #           argocd app create apps     --dest-namespace app     --dest-server https://kubernetes.default.svc     --repo https://github.com/thomas-mauran/kanas.git     --path .argocd/apps
+  #       become: yes
+
+  # - name: Sync the project
+  #   hosts: 127.0.0.1
+  #   tasks:
+  #     - name: Create the ns for the app
+  #       ansible.builtin.shell:
+  #         cmd: |
+  #           argocd app sync argocd/apps
+  #       become: yes
+    
+
+            
